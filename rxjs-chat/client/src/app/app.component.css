@@ -1,0 +1,38 @@
+.setName{
+  width: 40%;
+  height: 2%;
+  margin-left: 30%;
+  margin-top: 3%;
+}
+
+.chat{
+  width: 40%;
+  height: 60%;
+  margin-left: 30%;
+  margin-top: 5%;
+  overflow-wrap: break-word;
+  border-style: solid;
+  border-color: #3903b6;
+  border-width: 2px;
+  display: list-item;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.chatMessage{
+  width: 100%;
+  height: auto;
+  text-align: left;
+  font-size: 20px;
+  padding-top: 5px;
+  padding-left: 5px;
+}
+
+.wyslij{
+  margin-left: 35%;
+}
+
+button{
+    margin-left: 10px;
+}
+

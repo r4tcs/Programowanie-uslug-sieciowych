@@ -1,0 +1,31 @@
+<div class="setName">
+  <div *ngIf="!isDisabled">
+  <mat-form-field style="width: 200px">
+    <mat-label>Podaj swoją nazwę</mat-label>
+    <input matInput type="text" [(ngModel)]="userid" (keyup)="$event.keyCode == 13 && setUserId()"/>
+    <button mat-button *ngIf="userid" matSuffix mat-icon-button aria-label="Clear" (click)="userid=''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="setUserId()">Ustaw nazwę</button>
+  </div>
+  <div *ngIf="isDisabled">
+    <b>Cześć {{this.userid}} !</b>
+  </div>
+</div>
+<div class="chat" id="chat">
+  <div class="chatMessage" *ngFor="let message of messages">
+      <label style="font-size: 10px;">{{message.value.substr(0,8)}}</label> &nbsp; {{message.value.substr(8)}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - {{message.userid}}
+  </div>
+</div><br>
+<div class="wyslij">
+  <mat-form-field style="width: 450px">
+    <mat-label>Wpisz wiadomość</mat-label>
+    <input matInput type="text" [(ngModel)]="inputText" (keyup)="$event.keyCode == 13 && sendMessage()"/>
+    <button mat-button *ngIf="message" matSuffix mat-icon-button aria-label="Clear" (click)="message.value=''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="sendMessage()">Wyślij</button>
+</div>
+<br>
