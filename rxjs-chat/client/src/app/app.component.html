@@ -1,16 +1,16 @@
 <div class="setName">
-  <div *ngIf="!isDisabled">
+  <div *ngIf="!this.userSetName">
   <mat-form-field style="width: 200px">
     <mat-label>Podaj swoją nazwę</mat-label>
-    <input matInput type="text" [(ngModel)]="userid" (keyup)="$event.keyCode == 13 && setUserId()"/>
+    <input matInput type="text" [(ngModel)]="userid"/>
     <button mat-button *ngIf="userid" matSuffix mat-icon-button aria-label="Clear" (click)="userid=''">
       <mat-icon>close</mat-icon>
     </button>
   </mat-form-field>
   <button mat-raised-button color="primary" (click)="setUserId()">Ustaw nazwę</button>
   </div>
-  <div *ngIf="isDisabled">
-    <b>Cześć {{this.userid}} !</b>
+  <div *ngIf="this.userSetName">
+    <b>Cześć {{this.userid}}!</b>
   </div>
 </div>
 <div class="chat" id="chat">
@@ -21,11 +21,16 @@
 <div class="wyslij">
   <mat-form-field style="width: 450px">
     <mat-label>Wpisz wiadomość</mat-label>
-    <input matInput type="text" [(ngModel)]="inputText" (keyup)="$event.keyCode == 13 && sendMessage()"/>
+    <input matInput type="text" [(ngModel)]="inputText"/>
     <button mat-button *ngIf="message" matSuffix mat-icon-button aria-label="Clear" (click)="message.value=''">
       <mat-icon>close</mat-icon>
     </button>
   </mat-form-field>
   <button mat-raised-button color="primary" (click)="sendMessage()">Wyślij</button>
+  <div class="form-group">
+    <input type="file"
+           id="file"
+           (change)="handleFileInput($event.target.files)">
+  </div>
 </div>
 <br>

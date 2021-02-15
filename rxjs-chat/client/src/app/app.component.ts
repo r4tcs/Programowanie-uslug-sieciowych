@@ -1,6 +1,6 @@
+import { ChatService } from './../chat.service';
 import { Message } from './message';
-import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
-import { ChatService } from '../chat.service';
+import { Component, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
 
 import * as moment from 'moment';
 
@@ -12,13 +12,9 @@ import * as moment from 'moment';
 
 
 export class AppComponent implements OnInit, AfterViewChecked {
-
-  @ViewChild('scrollMe')
-
-  private myScrollContainer: ElementRef;
-
-  isDisabled: boolean;
-  userid: string;
+  title: 'Chat';
+  userSetName = false;
+  userid = '';
   inputText: string;
   message = new Message('', '');
   messages: Message[] = [];
@@ -29,7 +25,6 @@ export class AppComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-    this.isDisabled = false;
     this.chatService.getMessages().subscribe(({message, userid}) => {
       const currentTime = moment().format('HH:mm:ss');
       this.time = currentTime;
@@ -37,10 +32,11 @@ export class AppComponent implements OnInit, AfterViewChecked {
       const m = new Message(finalMessage, userid);
       this.messages.push(m);
     });
+    //this.chatService.getImages();
   }
 
   setUserId() {
-    this.isDisabled = true;
+    this.userSetName = true;
   }
 
   sendMessage() {
@@ -51,9 +47,10 @@ export class AppComponent implements OnInit, AfterViewChecked {
     this.inputText = '';
   }
 
-  getRandomColor() {
-    const color = Math.floor(0x1000000 * Math.random()).toString(16);
-    return '#' + ('000000' + color).slice(-6);
+  handleFileInput(files: FileList) {
+    const reader = new FileReader();
+    const bytes = new Uint8Array(reader.onload(files.item[0]));
+    this.chatService.sendFile(bytes);
   }
 
   ngAfterViewChecked(): void {
