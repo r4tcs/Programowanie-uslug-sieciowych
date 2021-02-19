@@ -21,9 +21,12 @@
     "@angular/platform-browser": "^9.1.13",
     "@angular/platform-browser-dynamic": "^9.1.13",
     "@angular/router": "^9.1.13",
+    "file-saver": "^2.0.5",
     "moment": "^2.29.1",
     "rxjs": "^6.6.3",
     "socket.io-client": "^2.4.0",
+    "socket.io-file": "^2.0.31",
+    "socketio-file-upload": "^0.7.3",
     "tslib": "^1.14.1",
     "zone.js": "~0.10.2"
   },

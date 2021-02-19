@@ -1,9 +1,15 @@
 export class Message {
   value = '';
-  userid = '';
+  userName = '';
+  file = null;
+  fileName = '';
+  fileType = '';
 
-  constructor(value, userid){
+  constructor(value, userName, file, fileName, fileType){
     this.value = value;
-    this.userid = userid;
+    this.userName = userName;
+    this.file = file;
+    this.fileName = fileName;
+    this.fileType = fileType;
   }
 }

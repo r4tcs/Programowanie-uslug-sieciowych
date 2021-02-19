@@ -2,20 +2,53 @@
   <div *ngIf="!this.userSetName">
   <mat-form-field style="width: 200px">
     <mat-label>Podaj swoją nazwę</mat-label>
-    <input matInput type="text" [(ngModel)]="userid"/>
-    <button mat-button *ngIf="userid" matSuffix mat-icon-button aria-label="Clear" (click)="userid=''">
+    <input matInput type="text" [(ngModel)]="userName" required/>
+    <button mat-button *ngIf="userName" matSuffix mat-icon-button aria-label="Clear" (click)="userName=''">
       <mat-icon>close</mat-icon>
     </button>
   </mat-form-field>
   <button mat-raised-button color="primary" (click)="setUserId()">Ustaw nazwę</button>
   </div>
   <div *ngIf="this.userSetName">
-    <b>Cześć {{this.userid}}!</b>
+    <b>Cześć {{this.userName}}!</b>
   </div>
 </div>
-<div class="chat" id="chat">
+<div class="rooms">
+  <b>Użytkownicy:</b> <br>
+  <div *ngFor="let user of this.users" style="margin-top: 1%;">
+    <button mat-stroked-button color="basic" (click)="openPrivateChat(user.name, user.userid)">{{user.name}}</button>
+  </div>
+</div>
+<div class="chat" id="chat" *ngIf="!privateChat">
+  <div class="chatLabel">
+    <label>Czat ogólny:</label>
+  </div>
   <div class="chatMessage" *ngFor="let message of messages">
-      <label style="font-size: 10px;">{{message.value.substr(0,8)}}</label> &nbsp; {{message.value.substr(8)}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - {{message.userid}}
+    <label style="font-size: 10px;">
+      {{message.value.substr(0,8)}}</label>
+      <div *ngIf="message.value.length > 8">
+          {{message.value.substr(8)}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - {{message.userName}}
+        <br>
+      </div>
+      <div *ngIf="message.file" style="background-color: rgb(226, 226, 226);">
+          <button mat-raised-button (click)="saveFile(message.file, message.fileName, message.fileType)">{{message.fileName}}</button> dodany przez użytkownika: {{message.userName}}
+      </div>
+  </div>
+</div>
+<div class="chat" id="chat" *ngIf="privateChat">
+  <div class="chatLabel">
+    <label>Czat z użytkownikiem {{this.secondUserName}}:</label>
+  </div>
+  <div class="chatMessage" *ngFor="let message of privateMessages">
+    <label style="font-size: 10px;">
+      {{message.value.substr(0,8)}}</label>
+      <div *ngIf="message.value.length > 8">
+          {{message.value.substr(8)}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - {{message.userName}}
+        <br>
+      </div>
+      <div *ngIf="message.file" style="background-color: rgb(226, 226, 226);">
+          <button mat-raised-button (click)="saveFile(message.file, message.fileName, message.fileType)">{{message.fileName}}</button> dodany przez użytkownika: {{message.userName}}
+      </div>
   </div>
 </div><br>
 <div class="wyslij">
@@ -26,10 +59,12 @@
       <mat-icon>close</mat-icon>
     </button>
   </mat-form-field>
-  <button mat-raised-button color="primary" (click)="sendMessage()">Wyślij</button>
+  <button mat-raised-button color="primary" *ngIf="!privateChat" (click)="sendMessage()">Wyślij</button>
+  <button mat-raised-button color="primary" *ngIf="privateChat" (click)="sendPrivateMessage()">Wyślij</button>
+  <button mat-raised-button color="warn" *ngIf="privateChat" (click)="switchChat()">Czat ogólny</button>
   <div class="form-group">
     <input type="file"
-           id="file"
+           #file
            (change)="handleFileInput($event.target.files)">
   </div>
 </div>
